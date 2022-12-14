@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('category');
             $table->string('name');
             $table->string('description');
-            $table->string('price');
-            $table->string('quantity');
+            $table->integer('price');
+            $table->integer('quantity');
             $table->string('image')->nullable();
             $table->timestamps();
         });

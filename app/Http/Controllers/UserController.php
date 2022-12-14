@@ -37,14 +37,12 @@ class UserController extends Controller
             'firstname'=>'required',
             'middlename'=>'required',
             'lastname'=>'required',
-            'birthdate'=>'nullable',
-            'gender'=>'nullable',
-            'username'=>'required',
-            'mobilephone'=>'required|max:11',
-            'email'=>'required',
+            'username'=>'required|unique:users,username',
+            'mobilephone'=>'required|unique:users,mobilephone|max:11',
+            'email'=>'required|unique:users,email',
             'image'=>'required|image|mimes:jpeg,png,jpg',
             'userImage'=>'nullable|image|mimes:jpeg,png,jpg',
-            'brgy'=>'nullable',
+            'brgy'=>'required',
         ]);
 
         if($validator->fails())
@@ -60,8 +58,6 @@ class UserController extends Controller
             $user->firstname=$req->input('firstname');
             $user->middlename=$req->input('middlename');
             $user->lastname=$req->input('lastname');
-            $user->birthdate=$req->input('birthdate');
-            $user->gender=$req->input('gender');
             $user->username=$req->input('username');
             $user->mobilephone=$req->input('mobilephone');
             $user->email=$req->input('email');
@@ -104,7 +100,7 @@ class UserController extends Controller
     }
 
     //edit key
-    public function edit($id)
+    /*public function edit($id)
     {
         $user = User::find($id);
         if($user)
@@ -175,8 +171,16 @@ class UserController extends Controller
                 ]);
             }
         }
-    }
+    }*/
 
+    public function showUserInfo($id)
+    {
+        $userInfo = User::where('id', $id)->get();
+        return response()->json([
+            'status'=> 200,
+            'userInfo' => $userInfo,
+        ]);
+    }
     //user key to edit password
     public function editPassword($id)
     {
@@ -299,7 +303,7 @@ class UserController extends Controller
         }
 
     }
-
+    //edit image
     public function updateImage(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[

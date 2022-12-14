@@ -10,6 +10,7 @@ use App\Models\User;
 
 class CartController extends Controller
 {
+    // for adding the product to cart
     public function addtoCart(Request $request)
     {
         $product_id = $request->product_id;
@@ -65,6 +66,8 @@ class CartController extends Controller
         ]);
         
     }
+
+    //showing of products when the user want to checkout the product
     public function checkoutDetails($user_id)
     {
         $cartItems = Cart::find($user_id);

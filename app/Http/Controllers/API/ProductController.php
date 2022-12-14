@@ -190,6 +190,15 @@ class ProductController extends Controller
         return Product::where('name', 'Like', "%$key%")->get();
     }
 
+    public function searchProduct($id, $key)
+    {   
+        $products = Product::where('user_id', $id)->where('name', 'Like', "%$key%")->get();
+
+        return $products;
+        
+    }
+
+    //showing of review for fruit
     public function viewfruit($product_id)
     {
         $review = Review::where('product_id', $product_id)->get();
@@ -199,6 +208,7 @@ class ProductController extends Controller
         ]);
     }
 
+    //showing of review for vegetables
     public function viewvegetable($product_id)
     {
         $review = Review::where('product_id', $product_id)->get();
@@ -211,10 +221,10 @@ class ProductController extends Controller
     
     public function viewproductrecommendation($product_id)
     {
-        $review = Review::where('product_id', $product_id)->get();
+        $products = Review::where('product_id', $product_id)->get();
         return response()->json([
             'status'=> 200,
-            'reviews' =>$review,
+            'products' =>$products,
         ]);
     }
 
@@ -230,7 +240,9 @@ class ProductController extends Controller
     public function recommended()
     {
         
-        $data = SellerDelivered::select('product_id', 'order_price','order_name','order_qty',)->groupBy('product_id', 'order_price','order_name','order_qty')->orderBy('order_qty', 'desc')->get();
+        $data = Product::orderBy('price')
+        ->take(10)
+        ->get();
         return response()->json([
             'status'=>200,
             'data'=> $data,       
@@ -239,23 +251,21 @@ class ProductController extends Controller
     }
 
 
-    public function visualization($id)
+    public function visualizationdate($id)
     {
-        $data = SellerDelivered::select('order_qty')->where('seller_id', $id)->get();
+        $date = SellerDelivered::select('created_at')->whereMonth('created_at', Carbon::now()->month)->where('seller_id', $id)->get();
+        $date2 = SellerDelivered::select('created_at')->whereMonth('created_at', '11')->where('seller_id', $id)->get();
+        
+        $nowMonth = $date->count();
+        $nextMonth = $date2->count();
 
+        $data = [
+            $nextMonth,
+            $nowMonth,
+        ];
         return response()->json([
             'status'=>200,
             'data'=> $data,
-        ]);
-    }
-
-    public function visualizationdate($id)
-    {
-        $date = SellerDelivered::select('created_at')->whereMonth('created_at', Carbon::now()->month)->where('seller_id', $id)->orderBy('created_at', 'Desc')->get();
-
-        return response()->json([
-            'status'=>200,
-            'date'=> $date,
         ]);
     }
 

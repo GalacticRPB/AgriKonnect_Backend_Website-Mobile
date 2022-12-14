@@ -17,9 +17,9 @@ class CustomerController extends Controller
             'firstname'=>'required',
             'middlename'=>'required',
             'lastname'=>'required',
-            'username'=>'required',
-            'mobilephone'=>'nullable|max:11',
-            'email'=>'required',
+            'username'=>'required|unique:customers,username',
+            'mobilephone'=>'required|unique:customers,mobilephone|max:11',
+            'email'=>'required|unique:customers,email'
         ]);
 
         if($validator->fails())
@@ -87,8 +87,8 @@ class CustomerController extends Controller
             'firstname'=>'nullable',
             'middlename'=>'nullable',
             'lastname'=>'nullable',
-            'mobilephone'=>'required|max:11',
-            'email'=>'nullable',
+            'mobilephone'=>'required|unique:users,mobilephone|max:11',
+            'email'=>'required||unique:users,email',
             'password'=>'nullable|min:8',
             'address'=>'required',
         ]);

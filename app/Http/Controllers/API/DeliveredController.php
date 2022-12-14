@@ -73,7 +73,7 @@ class DeliveredController extends Controller
 
     public function showOrderDelivered($user_id)
     {
-        $delivered = SellerDelivered::where('seller_id', $user_id)->get();
+        $delivered = SellerDelivered::where('seller_id', $user_id)->orderBy('updated_at', 'desc')->get();
 
         return response()->json([
             'status'=>200,
@@ -113,13 +113,14 @@ class DeliveredController extends Controller
       
     }
 
+    //for update
     public function showRecentTransaction($user_id)
     {
-        $recent = Review::where('customer_id', $user_id)->orderBy('updated_at', 'desc')->get();
+        $recent = SellerDelivered::where('customerId', $user_id)->orderBy('updated_at', 'desc')->get();
 
         return response()->json([
             'status'=>200,
-            'reviews'=>$recent,
+            'recent'=>$recent,
         ]);
     }
 }

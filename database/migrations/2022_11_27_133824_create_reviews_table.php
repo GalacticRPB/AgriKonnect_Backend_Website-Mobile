@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('middlename');
             $table->string('lastname');
             $table->string('order_name');
-            $table->string('order_qty');
-            $table->string('order_total');
+            $table->integer('order_qty');
+            $table->integer('order_total');
             $table->string('review');
             $table->timestamps();
         });

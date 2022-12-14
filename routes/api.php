@@ -42,6 +42,9 @@ Route::put('/updatePassword/{id}', [UserController::class, 'updatePassword']);
 Route::get('/editPassword/{id}', [UserController::class, 'editPassword']);
 Route::get('/editImage/{id}', [UserController::class, 'editImage']);
 Route::put('/updateImage/{id}', [UserController::class, 'updateImage']);
+Route::get('userInfo/{id}', [UserController::class, 'showUserInfo']);
+
+//seller products and transaction
 
 //customer
 Route::post('registerCustomer', [CustomerController::class, 'registerCustomer']);
@@ -79,6 +82,7 @@ Route::resource('products', ProductController::class);
 Route::get('/vegetable', [ProductController::class, 'vegetable']);
 Route::get('/fruit',[ProductController::class, 'fruit']);
 Route::get('/search/{key}', [ProductController::class, 'search']);
+Route::get('/search-product/{id}/{key}', [ProductController::class, 'searchProduct']);
 Route::get('viewfruit/{id}',[ProductController::class, 'viewfruit']);
 Route::get('viewvegetable/{id}',[ProductController::class, 'viewvegetable']);
 Route::get('recent/{id}',[ProductController::class, 'recentSold']);

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('seller_id');
+            $table->integer('user_id');
+            $table->integer('seller_id');
             $table->integer('product_id');
             $table->integer('fruits_qty');
             $table->string('image')->nullable();
