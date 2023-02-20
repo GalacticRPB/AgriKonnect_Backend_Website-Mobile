@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('shippingaddress');
             $table->integer('shippingfee');
             $table->integer('total_price');
-            $table->integer('mobilephone');
+            $table->string('mobilephone');
             $table->string('modeofpayment');
             $table->timestamps();
         });

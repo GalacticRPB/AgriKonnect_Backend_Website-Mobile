@@ -43,6 +43,7 @@ class UserController extends Controller
             'image'=>'required|image|mimes:jpeg,png,jpg',
             'userImage'=>'nullable|image|mimes:jpeg,png,jpg',
             'brgy'=>'required',
+            'privacy'=>'required|accepted',
         ]);
 
         if($validator->fails())
@@ -74,6 +75,7 @@ class UserController extends Controller
 
             $user->verified=$req->input('verified');
             $user->brgy=$req->input('brgy');
+            $user->privacy=$req->input('privacy');
             $user->password=Hash::make($req->input('password'));
             $user->save();
 
@@ -99,8 +101,7 @@ class UserController extends Controller
         return $user;
     }
 
-    //edit key
-    /*public function edit($id)
+    public function edit($id)
     {
         $user = User::find($id);
         if($user)
@@ -124,15 +125,7 @@ class UserController extends Controller
     public function update(Request $req, $id)
     {
         $validator = Validator::make($req->all(),[
-            'firstname'=>'required',
-            'middlename'=>'required',
-            'lastname'=>'required',
-            'birthdate'=>'required',
-            'gender'=>'required',
-            'username'=>'required',
-            'mobilephone'=>'required|max:11',
-            'email'=>'required',
-            'brgy'=>'required',
+            'username'=>'nullable|max:20',
         ]);
 
         if($validator->fails())
@@ -147,20 +140,12 @@ class UserController extends Controller
             $user = User::find($id);
             if($user)
             {
-                $user->firstname=$req->input('firstname');
-                $user->middlename=$req->input('middlename');
-                $user->lastname=$req->input('lastname');
-                $user->birthdate=$req->input('birthdate');
-                $user->gender=$req->input('gender');
                 $user->username=$req->input('username');
-                $user->mobilephone=$req->input('mobilephone');
-                $user->email=$req->input('email');
-                $user->brgy=$req->input('brgy');
                 $user->update();
 
                 return response()->json([
                     'status'=> 200,
-                    'message'=>'User Account Updated Successfully',
+                    'message'=>'Username Updated Successfully',
                 ]);
             }
             else
@@ -171,7 +156,7 @@ class UserController extends Controller
                 ]);
             }
         }
-    }*/
+    }
 
     public function showUserInfo($id)
     {
