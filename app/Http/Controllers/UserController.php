@@ -34,9 +34,9 @@ class UserController extends Controller
     public function register(Request $req)
     {
         $validator = Validator::make($req->all(), [
-            'firstname'=>'required',
-            'middlename'=>'required',
-            'lastname'=>'required',
+            'firstname'=>'required|string|regex:/^[a-zA-Z]+$/',
+            'middlename'=>'required|string|regex:/^[a-zA-Z]+$/',
+            'lastname'=>'required|string|regex:/^[a-zA-Z]+$/',
             'username'=>'required|unique:users,username',
             'mobilephone'=>'required|unique:users,mobilephone|max:11',
             'email'=>'required|unique:users,email',

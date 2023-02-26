@@ -16,9 +16,9 @@ class CustomerController extends Controller
     function registerCustomer(Request $req)
     {
         $validator = Validator::make($req->all(), [
-            'firstname'=>'required',
-            'middlename'=>'required',
-            'lastname'=>'required',
+            'firstname'=>'required|string|regex:/^[a-zA-Z]+$/',
+            'middlename'=>'required|string|regex:/^[a-zA-Z]+$/',
+            'lastname'=>'required|string|regex:/^[a-zA-Z]+$/',
             'username'=>'required|unique:customers,username',
             'mobilephone'=>'required|unique:customers,mobilephone|max:11',
             'email'=>'required|unique:customers,email',
@@ -53,18 +53,18 @@ class CustomerController extends Controller
             if($customer)
             {
                 Mail::to($email)->send(new Email($email, $otp));
-                return new JsonResponse([
-                    'success' => true,
+                // return new JsonResponse([
+                //     'success' => true,
+                //     'customer' => $customer,
+                //     'message' => 'Thank you for registering! Please input the otp code that we send to your email.'
+                // ], 200);
+                return response()->json([
+                    'status'=> 200,
                     'customer' => $customer,
-                    'message' => 'Thank you for registering! Please input the otp code that we send to your email.'
-                ], 200);
+                    'message' => 'Thank you for registering! Please input the otp code that we send to your email!',
+                ]);
             }
             
-            // return response()->json([
-            //     'status'=> 200,
-            //     'message' => 'Successfully Registered',
-            //     'customer'=>$customer
-            // ]);
         }
         
     }
@@ -75,30 +75,25 @@ class CustomerController extends Controller
             'email' => 'required|email|max:191',
             'otp' => 'required|max:191',
         ]);
-
-        if($validator->fails())
-        {
-            return response()->json([
-                'status'=> 422,
-                'errors'=> $validator->messages(),
-            ]);
-        }
-
         $customer = Customer::where([['email','=',$request->email],['otp','=',$request->otp]])->first();
-        if($customer){
+
+        if($customer)
+        {
             Customer::where('email','=',$request->email)->update(['otp' => '000000', 'verified' => 'true']);
 
-            return new JsonResponse([
-                'success' => true,
-                'message' => 'Thank you for registering! Please input the otp code that we send to your email.'
-            ], 200);
-        }
-        else{
             return response()->json([
-                'status'=> 422,
-                'errors'=> $validator->messages(),
+                'status'=> 200,
+                'message' => 'Thank you for registering.Enjoy Shopping!',
             ]);
         }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'Incorrect OTP Code',
+            ]);
+        }
+
     }
 
     //
@@ -151,9 +146,9 @@ class CustomerController extends Controller
     public function updateCustomer(Request $req, $id)
     {
         $validator = Validator::make($req->all(),[
-            'firstname'=>'nullable',
-            'middlename'=>'nullable',
-            'lastname'=>'nullable',
+            'firstname'=>'nullable|string|regex:/^[a-zA-Z]+$/',
+            'middlename'=>'nullable|string|regex:/^[a-zA-Z]+$/',
+            'lastname'=>'nullable|string|regex:/^[a-zA-Z]+$/',
             'mobilephone'=>'required|unique:users,mobilephone|max:11',
             'email'=>'required||unique:users,email',
             'password'=>'nullable|min:8',
