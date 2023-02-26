@@ -31,8 +31,8 @@ class ProductController extends Controller
             'category'=>'required|max:191',
             'name'=>'required|max:191',
             'description'=>'required|max:191',
-            'price'=>'required|max:191',
-            'quantity'=>'required|max:191',
+            'price'=>'required|integer|min:0',
+            'quantity'=>'required|integer|min:0',
 
         ]);
 
@@ -40,7 +40,7 @@ class ProductController extends Controller
         {
             return response()->json([
                 'status'=> 422,
-                'validate_err'=> $validator->messages(),
+                'errors'=> $validator->messages(),
             ]);
         }
         else
@@ -108,7 +108,7 @@ class ProductController extends Controller
         {
             return response()->json([
                 'status'=> 422,
-                'validationErrors'=> $validator->messages(),
+                'errors'=> $validator->messages(),
             ]);
         }
         else

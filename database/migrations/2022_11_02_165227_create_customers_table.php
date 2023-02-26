@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('privacy')->default('false');
             $table->string('verified')->default('false');
             $table->string('email')->unique();
-            $table->string('otp');
+            $table->string('otp',6);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('address')->nullable();
