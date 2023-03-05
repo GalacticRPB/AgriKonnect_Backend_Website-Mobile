@@ -18,8 +18,8 @@ class CheckoutController extends Controller
     
         $validator = Validator::make($request->all(), [
             'shippingaddress'=>'required',
-            'mobilephone'=>'required',
-            'modeofpayment'=>'required',
+            // 'mobilephone'=>'required',
+            // 'modeofpayment'=>'required',
         ]);
 
         if($validator->fails())
@@ -45,6 +45,8 @@ class CheckoutController extends Controller
             $firstname = $request->input('firstname');
             $middlename = $request->input('middlename');
             $lastname = $request->input('lastname');
+            $mobilephone = $request->input('mobilephone');
+            $modeofpayment = $request->input('modeofpayment');
 
             $order = new Order;
             $order->user_id = $user_id;
@@ -61,8 +63,8 @@ class CheckoutController extends Controller
             $order->middlename = $middlename;
             $order->lastname = $lastname;
             $order->shippingaddress = $request->input('shippingaddress');
-            $order->mobilephone = $request->input('mobilephone');
-            $order->modeofpayment = $request->input('modeofpayment');
+            $order->mobilephone = $mobilephone;
+            $order->modeofpayment = $modeofpayment;
             $order->save();
             
             $affected = Cart::where('id', $cart_id)->delete();
