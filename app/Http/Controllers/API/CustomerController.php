@@ -20,8 +20,8 @@ class CustomerController extends Controller
             'middlename'=>'required|string|regex:/^[a-zA-Z]+$/',
             'lastname'=>'required|string|regex:/^[a-zA-Z]+$/',
             'username'=>'required|unique:customers,username',
-            'mobilephone'=>'required|unique:customers,mobilephone|max:11',
-            'email'=>'required|unique:customers,email',
+            'mobilephone'=>'required|unique:customers,mobilephone|regex:/^\+?\d{9-15}$/',
+            'email'=>'required|unique:customers,email|regex:/^.+@.+\..+$/i',
             'privacy'=>'required|accepted',
         ]);
 
